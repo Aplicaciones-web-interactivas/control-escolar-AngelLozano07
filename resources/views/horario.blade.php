@@ -21,22 +21,37 @@
             @csrf
 
             <div class="mb-3">
-                <label for="" class="form-label">Clave: </label>
-                <input type="text"
-                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    name="clave" id="" aria-describedby="helpId" placeholder="Clave del horario" />
-            </div>
-            <div class="mb-3">
                 <label for="" class="form-label">Materia: </label>
-                <input type="text"
-                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    name="materia" id="" aria-describedby="helpId" placeholder="Clave de la materia" />
+                <select name="materia" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona una materia</option>
+                    @foreach ($materias as $materia)
+                        <option value="{{ $materia->clave }}">{{ $materia->nombre }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">Usuario: </label>
-                <input type="text"
-                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    name="usuario" id="" aria-describedby="helpId" placeholder="Clave del usuario" />
+                <select name="usuario" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona un usuario</option>
+                    @foreach ($usuarios as $usuario)
+                        <option value="{{ $usuario->clave_institucional }}">{{ $usuario->nombre }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Dia: </label>
+                <select name="dia" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona un día</option>
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miércoles">Miércoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">Inicio: </label>
@@ -70,9 +85,10 @@
 
             <thead class="bg-gray-200">
                 <tr>
-                    <th class="py-2">Clave</th>
+                    <th class="py-2">Id</th>
                     <th>Materia</th>
                     <th>Usuario</th>
+                    <th>Dia</th>
                     <th>Inicio</th>
                     <th>Fin</th>
                     <th>Opciones</th>
@@ -82,9 +98,10 @@
             <tbody class="divide-y divide-gray-300">
                 @foreach ($horarios as $horario)
                     <tr>
-                        <td>{{ $horario->clave }}</td>
-                        <td>{{ $horario->materia }}</td>
-                        <td>{{ $horario->usuario }}</td>
+                        <td>{{ $horario->id }}</td>
+                        <td>{{ $horario->materia->nombre }}</td>
+                        <td>{{ $horario->usuario->nombre }}</td>
+                        <td>{{ $horario->dia }}</td>
                         <td>{{ $horario->hora_inicio }}</td>
                         <td>{{ $horario->hora_fin }}</td>
                         <td class="text-center gap-4">

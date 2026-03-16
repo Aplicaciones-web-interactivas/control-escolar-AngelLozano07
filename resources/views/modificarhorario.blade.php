@@ -22,9 +22,35 @@
 
             <div class="mb-3">
                 <label for="" class="form-label">Materia: </label>
-                <input type="text"
-                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    name="materia" id="" aria-describedby="helpId" placeholder="Nombre de la materia" value="{{ $horario->materia_id }}" />
+                <select name="materia" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona una materia</option>
+                    @foreach ($materias as $materia)
+                        <option value="{{ $materia->clave }}" {{ $horario->materia_id == $materia->clave ? 'selected' : '' }}>{{ $materia->nombre }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Usuario: </label>
+                <select name="usuario" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona un usuario</option>
+                    @foreach ($usuarios as $usuario)
+                        <option value="{{ $usuario->clave_institucional }}" {{ $horario->usuario_id == $usuario->clave_institucional ? 'selected' : '' }}>{{ $usuario->nombre }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Día: </label>
+                <select name="dia" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona un día</option>
+                    <option value="Lunes" {{ $horario->dia == 'Lunes' ? 'selected' : '' }}>Lunes</option>
+                    <option value="Martes" {{ $horario->dia == 'Martes' ? 'selected' : '' }}>Martes</option>
+                    <option value="Miércoles" {{ $horario->dia == 'Miércoles' ? 'selected' : '' }}>Miércoles</option>
+                    <option value="Jueves" {{ $horario->dia == 'Jueves' ? 'selected' : '' }}>Jueves</option>
+                    <option value="Viernes" {{ $horario->dia == 'Viernes' ? 'selected' : '' }}>Viernes</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">Inicio: </label>

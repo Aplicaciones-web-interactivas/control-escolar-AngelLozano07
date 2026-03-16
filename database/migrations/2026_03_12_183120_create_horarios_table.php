@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('horarios', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('materia_id')->constrained();
-            $table->foreignId('usuario_id')->constrained();
-            $table->time('dia');
+            $table->string('materia_id');
+            $table->foreign('materia_id')->references('clave')->on('materias');
+            $table->string('usuario_id');
+            $table->foreign('usuario_id')->references('clave_institucional')->on('usuarios');
+            $table->string('dia');
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->timestamps();

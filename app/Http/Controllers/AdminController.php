@@ -68,18 +68,7 @@ class AdminController extends Controller
 
     public function horarios()
     {
-        $horarios = DB::table('horarios')
-        ->join('materias', 'horarios.materia_id', '=', 'materias.clave')
-        ->join('usuarios', 'horarios.usuario_id', '=', 'usuarios.clave_institucional')
-        ->select(
-            'horarios.id',
-            'horarios.clave',
-            'materias.nombre as materia',
-            'usuarios.nombre as usuario',
-            'horarios.hora_inicio',
-            'horarios.hora_fin'
-        )
-        ->get();
+        $horarios = horario::all();
 
         $materias = materia::all();
         $usuarios = usuario::all();
@@ -99,22 +88,10 @@ class AdminController extends Controller
 
     public function agregarhorario(Request $request)
     {
-        $usuario = usuario::where('clave_institucional', $request->usuario)->first();
-        $materia = materia::where('clave', $request->materia)->first();
-        $mensajeError = '';
-        if (!$usuario) {
-            $mensajeError .= "Usuario no encontrado.\n";
-        }
-        if (!$materia) {
-            $mensajeError .= "Materia no encontrada.\n";
-        }
-        if ($mensajeError) {
-            return redirect()->back()->with('error', $mensajeError);
-        }
         $horario = new horario();
-        $horario->clave = $request->clave;
         $horario->materia_id = $request->materia;
         $horario->usuario_id = $request->usuario;
+        $horario->dia = $request->dia;
         $horario->hora_inicio = $request->hora_inicio;
         $horario->hora_fin = $request->hora_fin;
         $horario->save();
@@ -125,7 +102,9 @@ class AdminController extends Controller
     {
         $horario = horario::find($id);
         if ($horario) {
-            return view('modificarhorario')->with('horario', $horario);
+            $materias = materia::all();
+            $usuarios = usuario::all();
+            return view('modificarhorario')->with('horario', $horario)->with('materias', $materias)->with('usuarios', $usuarios);
         }else {
             return redirect()->back()->with('error', 'Horario no encontrado');
         }
@@ -136,6 +115,8 @@ class AdminController extends Controller
         $horario = horario::find($id);
         if ($horario) {
             $horario->materia_id = $request->materia;
+            $horario->usuario_id = $request->usuario;
+            $horario->dia = $request->dia;
             $horario->hora_inicio = $request->hora_inicio;
             $horario->hora_fin = $request->hora_fin;
             $horario->save();
@@ -148,7 +129,8 @@ class AdminController extends Controller
     public function grupos()
     {
         $grupos = grupo::all();
-        return view('grupo')->with('grupos', $grupos);
+        $horarios = horario::all();
+        return view('grupo')->with('grupos', $grupos)->with('horarios', $horarios);
     }
 
     public function eliminargrupo($id)
@@ -164,7 +146,7 @@ class AdminController extends Controller
 
     public function agregargrupo(Request $request)
     {
-        $horario = horario::where('clave', $request->horario_id)->first();
+        $horario = horario::where('id', $request->horario_id)->first();
         if (!$horario) {
             return redirect()->back()->with('error', "Horario no encontrado.\n");
         }
@@ -188,7 +170,7 @@ class AdminController extends Controller
 
     public function modificargrupo(Request $request, $id)
     {
-        $horario = horario::where('clave', $request->horario_id)->first();
+        $horario = horario::where('id', $request->horario_id)->first();
         if (!$horario) {
             return redirect()->back()->with('error', "Horario no encontrado.\n");
         }

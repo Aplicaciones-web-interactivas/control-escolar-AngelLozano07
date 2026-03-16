@@ -29,9 +29,13 @@
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">Id horario: </label>
-                <input type="text"
-                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    name="horario_id" id="" aria-describedby="helpId" placeholder="Id del horario" />
+                <select name="horario_id" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona un horario</option>
+                    @foreach ($horarios as $horario)
+                        <option value="{{ $horario->id }}">{{ $horario->id }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <button type="submit"
