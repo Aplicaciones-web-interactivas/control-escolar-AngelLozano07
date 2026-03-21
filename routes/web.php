@@ -28,3 +28,9 @@ Route::post('/eliminargrupo/{id}', [AdminController::class, 'eliminargrupo'])->n
 Route::post('/agregargrupo', [AdminController::class, 'agregargrupo'])->name('grupo.agregar');
 Route::get('/mostrargrupo/{id}', [AdminController::class, 'mostrargrupo'])->name('grupo.mostrar');
 Route::post('/modificargrupo/{id}', [AdminController::class, 'modificargrupo'])->name('grupo.modificar');
+
+Route::get('/incripciones', [AdminController::class, 'inscripciones'])->name('inscripcion.admin');
+Route::post('/eliminarinscripcion/{id}', [AdminController::class, 'eliminarinscripcion'])->name('inscripcion.eliminar');
+Route::post('/agregarinscripcion', [AdminController::class, 'agregarinscripcion'])->name('inscripcion.agregar');
+Route::get('/mostrarinscripcion/{id}', [AdminController::class, 'mostrarinscripcion'])->name('inscripcion.mostrar');
+Route::post('/modificarinscripcion/{id}', [AdminController::class, 'modificarinscripcion'])->name('inscripcion.modificar');

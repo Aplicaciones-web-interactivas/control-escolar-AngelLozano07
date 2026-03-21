@@ -8,6 +8,8 @@ use App\Models\materia;
 use App\Models\horario;
 use App\Models\grupo;
 use App\Models\usuario;
+use App\Models\inscripcion;
+use App\Models\calificacion;
 
 class AdminController extends Controller
 {
@@ -162,7 +164,8 @@ class AdminController extends Controller
     {
         $grupo = grupo::find($id);
         if ($grupo) {
-            return view('modificargrupo')->with('grupo', $grupo);
+            $horarios = horario::all();
+            return view('modificargrupo')->with('grupo', $grupo)->with('horarios', $horarios);
         }else {
             return redirect()->back()->with('error', 'Grupo no encontrado');
         }
@@ -183,6 +186,76 @@ class AdminController extends Controller
             return redirect('/grupos')->with('success', 'Grupo modificado correctamente');
         }else {
             return redirect()->back()->with('error', 'Grupo no encontrado');
+        }
+    }
+
+    public function inscripciones()
+    {
+        $inscripciones = inscripcion::all();
+        $usuarios = usuario::all();
+        $grupos = grupo::all();
+        return view('inscripcion')->with('inscripciones', $inscripciones)->with('usuarios', $usuarios)->with('grupos', $grupos);
+    }
+
+    public function eliminarinscripcion($id)
+    {
+        $inscripcion = inscripcion::find($id);
+        if ($inscripcion) {
+            $inscripcion->delete();
+        }else {
+            return redirect()->back()->with('error', 'Inscripción no encontrada');
+        }
+        return redirect()->back()->with('success', 'Inscripción eliminada correctamente');
+    }
+
+    public function agregarinscripcion(Request $request)
+    {
+        $usuario = usuario::where('id', $request->usuario_id)->first();
+        if (!$usuario) {
+            return redirect()->back()->with('error', "Usuario no encontrado.\n");
+        }
+        $grupo = grupo::where('id', $request->grupo_id)->first();
+        if (!$grupo) {
+            return redirect()->back()->with('error', "Grupo no encontrado.\n");
+        }
+
+        $inscripcion = new inscripcion();
+        $inscripcion->usuario_id = $request->usuario_id;
+        $inscripcion->grupo_id = $request->grupo_id;
+        $inscripcion->save();
+        return redirect()->back()->with('success', 'Inscripción agregada correctamente');
+    }
+
+    public function mostrarinscripcion($id)
+    {
+        $inscripcion = inscripcion::find($id);
+        if ($inscripcion) {
+            return view('modificarinscripcion')->with('inscripcion', $inscripcion);
+        }else {
+            return redirect()->back()->with('error', 'Inscripción no encontrada');
+        }
+    }
+
+    public function modificarinscripcion(Request $request, $id)
+    {
+        $usuario = usuario::where('id', $request->usuario_id)->first();
+        if (!$usuario) {
+            return redirect()->back()->with('error', "Usuario no encontrado.\n");
+        }
+
+        $grupo = grupo::where('id', $request->grupo_id)->first();
+        if (!$grupo) {
+            return redirect()->back()->with('error', "Grupo no encontrado.\n");
+        }
+
+        $inscripcion = inscripcion::find($id);
+        if ($inscripcion) {
+            $inscripcion->usuario_id = $request->usuario_id;
+            $inscripcion->grupo_id = $request->grupo_id;
+            $inscripcion->save();
+            return redirect('/inscripciones')->with('success', 'Inscripción modificada correctamente');
+        }else {
+            return redirect()->back()->with('error', 'Inscripción no encontrada');
         }
     }
 }

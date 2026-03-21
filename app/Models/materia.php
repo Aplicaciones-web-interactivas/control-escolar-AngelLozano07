@@ -9,6 +9,6 @@ class materia extends Model
 {
     public function horarios()
     {
-        return $this->hasMany(horario::class);
+        return $this->hasMany(horario::class, 'materia_id', 'clave');
     }
 }

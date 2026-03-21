@@ -17,29 +17,33 @@
     class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
 
     <div class="w-1/2 borber border-gray-300 rounded-md p-6 bg-gray-100 shadow-md">
-        <form method="post" action="{{ route('grupo.modificar', $grupo->id) }}">
+        <form method="post" action="{{ route('inscripcion.modificar', $grupo->id) }}">
             @csrf
 
             <div class="mb-3">
-                <label for="" class="form-label">Nombre: </label>
-                <input type="text"
-                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    name="nombre" id="" aria-describedby="helpId" placeholder="Nombre del grupo" value="{{ $grupo->nombre }}" />
+                <label for="" class="form-label">Usuario: </label>
+                <select name="usuario_id" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona un usuario</option>
+                    @foreach ($usuarios as $usuario)
+                        <option value="{{ $usuario->id }}" {{ $grupo->usuario_id == $usuario->id ? 'selected' : '' }}>{{ $usuario->id }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="mb-3">
-                <label for="" class="form-label">Id horario: </label>
-                <select name="horario_id" id=""
+                <label for="" class="form-label">Grupo: </label>
+                <select name="grupo_id" id=""
                     class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <option value="">Selecciona un horario</option>
-                    @foreach ($horarios as $horario)
-                        <option value="{{ $horario->id }}" {{ $grupo->horario_id == $horario->id ? 'selected' : '' }}>{{ $horario->id }}</option>
+                    <option value="">Selecciona un grupo</option>
+                    @foreach ($grupos as $grupo)
+                        <option value="{{ $grupo->id }}" {{ $inscripcion->grupo_id == $grupo->id ? 'selected' : '' }}>{{ $grupo->id }}</option>
                     @endforeach
                 </select>
             </div>
 
             <button type="submit"
                 class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                Modificar Grupo
+                Modificar Inscripción
             </button>
         </form>
     </div>

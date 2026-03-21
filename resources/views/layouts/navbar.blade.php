@@ -14,6 +14,9 @@
             <li class="nav-item">
                 <a href="{{ route('grupo.admin') }}">Grupos</a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('inscripcion.admin') }}">Inscripciones</a>
+            </li>
         </ul>
     </div>
 </nav>
