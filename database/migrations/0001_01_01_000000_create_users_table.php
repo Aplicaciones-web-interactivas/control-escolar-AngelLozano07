@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('clave_institucional')->unique();
-            $table->string('rol')->default('usuario');
+            $table->string('rol')->default('alumno');
             $table->string('password');
             $table->boolean('activo')->default(true);
             $table->rememberToken();

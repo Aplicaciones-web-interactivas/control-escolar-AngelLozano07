@@ -45,4 +45,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function horarios()
+    {
+        return $this->hasMany(horario::class, 'usuario_id', 'clave_institucional');
+    }
+
+    public function inscripciones()
+    {
+        return $this->hasMany(inscripcion::class, 'usuario_id', 'clave_institucional');
+    }
+
+    public function calificaciones()
+    {
+        return $this->hasMany(calificacion::class, 'usuario_id', 'clave_institucional');
+    }
 }

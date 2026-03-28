@@ -3,12 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\usuario;
+use App\Models\grupo;
+use App\Models\User;
 
 class inscripcion extends Model
 {
+    protected $table = 'inscripciones';
+
     public function usuario()
     {
-        return $this->belongsTo(usuario::class, 'usuario_id', 'clave_institucional');
+        return $this->belongsTo(User::class, 'usuario_id', 'clave_institucional');
+    }
+
+    public function grupo()
+    {
+        return $this->belongsTo(grupo::class);
     }
 }

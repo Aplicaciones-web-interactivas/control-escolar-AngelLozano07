@@ -4,33 +4,53 @@
 
 @section('content')
     @include('layouts.navbar')
-    <div class="w-1/2 borber border-gray-300 rounded-md p-6 bg-gray-100 shadow-md">
-        <form method="post" action="{{ route('materia.agregar') }}">
+    <button onclick="abrirModal('modal1')" class="bg-blue-500 text-white px-4 py-2 rounded">
+        Agregar Calificación
+    </button>
+
+    <x-modal id="modal1" titulo="Crear tarea">
+        <form method="post" action="{{ route('calificacion.agregar') }}">
             @csrf
 
             <div class="mb-3">
-                <label for="" class="form-label">Nombre: </label>
-                <input type="text"
-                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    name="nombre_materia" id="" aria-describedby="helpId" placeholder="Nombre de la materia" />
+                <label for="" class="form-label">Usuario: </label>
+                <select name="usuario_id" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona un usuario</option>
+                    @foreach ($usuarios as $usuario)
+                        <option value="{{ $usuario->clave_institucional }}">{{ $usuario->nombre }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="mb-3">
-                <label for="" class="form-label">Clave: </label>
-                <input type="text"
+                <label for="" class="form-label">Grupo: </label>
+                <select name="grupo_id" id=""
+                    class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Selecciona un grupo</option>
+                    @foreach ($grupos as $grupo)
+                        <option value="{{ $grupo->id }}">{{ $grupo->nombre }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="" class="form-label">Calificación: </label>
+                <input type="number" step="0.01" min="0" max="100"
                     class="form-control border border-gray-500 rounded-md p-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    name="clave_materia" id="" aria-describedby="helpId" placeholder="Clave de la materia" />
+                    name="calificacion" id="" aria-describedby="helpId" placeholder="Calificación del usuario" />
             </div>
 
             <button type="submit"
                 class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                Agregar Materia
+                Agregar Calificación
             </button>
         </form>
-    </div>
+    </x-modal>
+    <!-- <div class="w-1/2 borber border-gray-300 rounded-md p-6 bg-gray-100 shadow-md"></div> -->
 
     @if (session('error'))
-        <div>
-            {{ session('error') }}
+        <div class="w-1/2 borber border-gray-300 rounded-md p-4 bg-red-100 shadow-md mt-6 text-red-700">
+            {!! nl2br(e(session('error'))) !!}
         </div>
     @endif
 
@@ -40,22 +60,26 @@
 
             <thead class="bg-gray-200">
                 <tr>
-                    <th class="py-2">Nombre</th>
-                    <th>Clave</th>
+                    <th class="py-2">Id grupo</th>
+                    <th>Usuario</th>
+                    <th>Grupo</th>
+                    <th>Calificación</th>
                     <th>Opciones</th>
                 </tr>
             </thead>
 
             <tbody class="divide-y divide-gray-300">
-                @foreach ($materias as $materia)
+                @foreach ($calificaciones as $calificacion)
                     <tr>
-                        <td>{{ $materia->nombre }}</td>
-                        <td>{{ $materia->clave }}</td>
+                        <td>{{ $calificacion->id }}</td>
+                        <td>{{ $calificacion->usuario->nombre }}</td>
+                        <td>{{ $calificacion->grupo->nombre }}</td>
+                        <td>{{ $calificacion->calificacion }}</td>
                         <td class="text-center gap-4">
 
                             <button
                                 class="bg-green-500 text-white font-bold py-1 px-3 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                                <a href="{{ route('materia.mostrar', $materia->id) }}">
+                                <a href="{{ route('calificacion.mostrar', $calificacion->id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                         fill="currentColor">
                                         <path
@@ -64,7 +88,7 @@
                                 </a>
                             </button>
 
-                            <form method='post' action='{{ route('materia.eliminar', $materia->id) }}'>
+                            <form method='post' action='{{ route('calificacion.eliminar', $calificacion->id) }}'>
 
                                 <button
                                     class="bg-red-500 text-white font-bold py-1 px-3 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">

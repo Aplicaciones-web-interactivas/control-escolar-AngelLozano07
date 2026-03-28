@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.base')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('title', 'Grupos')
 
-    <title>Grupos</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
-
-
-</head>
-
-<body
-    class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex px-6 lg:px-8 items-center lg:justify-center flex-col">
-
+@section('content')
     @include('layouts.navbar')
     <div class="w-1/2 borber border-gray-300 rounded-md p-6 bg-gray-100 shadow-md">
         <form method="post" action="{{ route('grupo.agregar') }}">
@@ -104,7 +91,4 @@
         </table>
 
     </div>
-
-</body>
-
-</html>
+@endsection

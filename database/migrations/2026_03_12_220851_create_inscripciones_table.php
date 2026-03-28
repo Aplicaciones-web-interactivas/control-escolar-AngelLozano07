@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->constrained();
+            $table->string('usuario_id');
+            $table->foreign('usuario_id')->references('clave_institucional')->on('users');
             $table->foreignId('grupo_id')->constrained();
             $table->timestamps();
         });
